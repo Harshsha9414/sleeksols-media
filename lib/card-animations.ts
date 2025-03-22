@@ -34,7 +34,8 @@ export function setupCardAnimations() {
     requestAnimationFrame(() => {
       card.style.setProperty('--translate-x', `${newX}px`);
       card.style.setProperty('--translate-y', `${newY}px`);
-      card.style.setProperty('--scale', 
+      card.style.setProperty(
+        '--scale', 
         card.closest('.testimonial-card') ? '1.04' : '1.08'
       );
       card.classList.add('shadow-active');
