@@ -1,0 +1,312 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 240 10% 99%;       /* Almost White */
+    --foreground: 240 10% 13%;       /* Deep Charcoal */
+    --primary: 207 89% 22%;          /* Navy Depth (#05445E) */
+    --primary-foreground: 240 10% 99%;
+    --secondary: 192 70% 40%;        /* Ocean Wave (#189AB4) */
+    --secondary-foreground: 240 10% 99%;
+    --accent: 170 62% 69%;           /* Aqua Breeze (#75E6DA) */
+    --accent-foreground: 240 10% 13%;
+    --muted: 240 10% 95%;
+  }
+
+  .dark {
+    --background: 240 10% 13%;       /* Deep Charcoal */
+    --foreground: 240 10% 90%;
+    --primary: 192 70% 40%;          /* Ocean Night (#189AB4) */
+    --primary-foreground: 240 10% 99%;
+    --secondary: 170 62% 69%;        /* Aqua Glow (#75E6DA) */
+    --secondary-foreground: 240 10% 13%;
+    --accent: 207 89% 22%;           /* Deep Abyss (#05445E) */
+    --accent-foreground: 240 10% 99%;
+    --muted: 240 10% 20%;
+  }
+}
+
+* {
+  @apply transition-colors duration-200;
+}
+
+/* Custom Animations */
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--primary);
+}
+
+a {
+  color: var(--secondary);
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+.button-primary {
+  background-color: var(--accent);
+  color: var(--background);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.button-primary:hover {
+  background-color: var(--primary);
+  transform: translateY(-2px);
+}
+
+.highlight-text {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+/* Card Styles */
+.card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+/* Navigation */
+.navbar {
+  background: rgba(var(--background), 0.9) !important;
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(var(--text), 0.1);
+}
+
+/* Form Elements */
+input, textarea {
+  background: rgba(var(--background), 0.1);
+  border: 1px solid var(--secondary);
+  padding: 10px;
+  border-radius: 4px;
+  color: var(--text);
+}
+
+input:focus {
+  outline: 2px solid var(--accent);
+}
+
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+@layer utilities {
+  .mobile-container {
+    @apply px-4 sm:px-6 md:px-8;
+  }
+  
+  .mobile-text {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .mobile-heading {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl;
+  }
+}
+
+/* Add these styles at the end of the file */
+.card {
+  position: relative;
+  transition: all 0.2s ease;
+  transform-origin: center;
+}
+
+.card:hover {
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 
+    0 10px 20px rgba(0, 0, 0, 0.15),
+    0 0 20px 5px rgba(var(--accent), 0.3),
+    0 0 30px 10px rgba(var(--accent), 0.2);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 12px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  box-shadow: 
+    0 0 30px 10px rgba(var(--accent), 0.4),
+    0 0 50px 20px rgba(var(--accent), 0.2);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .card {
+    margin: 0 1rem;
+    transition: transform 0.1s ease-out, box-shadow 0.2s ease-out;
+  }
+  
+  .card:hover {
+    transform: 
+      translate(var(--translate-x), var(--translate-y))
+      scale(1.03)
+      rotateX(var(--rotate-x))
+      rotateY(var(--rotate-y));
+    box-shadow: 
+      0 10px 20px rgba(0, 0, 0, 0.15),
+      0 0 15px 3px rgba(var(--accent), 0.3),
+      0 0 30px 8px rgba(var(--accent), 0.2);
+    transition: transform 0.05s linear, box-shadow 0.2s ease-out;
+  }
+  
+  .card::before,
+  .card::after {
+    display: block; /* Enable effects on mobile */
+  }
+  
+  .card::before {
+    box-shadow: 
+      0 0 20px 5px rgba(var(--accent), 0.3),
+      0 0 40px 10px rgba(var(--accent), 0.15);
+  }
+  
+  .card::after {
+    box-shadow: 
+      0 0 25px 8px rgba(var(--primary), 0.2),
+      0 0 50px 15px rgba(var(--primary), 0.1);
+  }
+} /* Remove the extra closing brace that was here */
+
+/* Add cursor-following effect */
+.card-container {
+  perspective: 1000px;
+}
+
+/* Add these styles at the end of your globals.css file */
+
+/* Card Styles - Unified */
+/* Replace all card styles with this unified version */
+
+/* Add these keyframes for a fast, smooth popup animation */
+@keyframes card-popup {
+  0% {
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Card Styles - Complete Rewrite */
+.card {
+  position: relative;
+  transform-style: preserve-3d;
+  will-change: transform, opacity;
+  --rotate-x: 0deg;
+  --rotate-y: 0deg;
+  --translate-x: 0px;
+  --translate-y: 0px;
+  --scale: 1;
+  background: rgba(255, 255, 255, 0.8); /* More opaque background */
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 1.5rem;
+  overflow: visible;
+  z-index: 1;
+  opacity: 1;
+  transform: translateZ(0);
+}
+
+.card:hover {
+  transform: 
+    translate3d(var(--translate-x), var(--translate-y), 0)
+    scale(var(--scale))
+    rotateX(var(--rotate-x))
+    rotateY(var(--rotate-y));
+  z-index: 10;
+}
+
+/* Shadow effect that appears behind the card */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: -20px; /* Extend beyond card boundaries */
+  border-radius: 20px; /* Slightly larger than card */
+  background: transparent; /* No background */
+  box-shadow: 
+    0 20px 50px rgba(0, 0, 0, 0.3),
+    0 0 30px 10px rgba(var(--accent), 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1; /* Behind the card */
+  pointer-events: none;
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.card:hover::after {
+  opacity: 0.7;
+  transform: translateY(5px) scale(0.95);
+  transition-delay: 0.1s;
+}
+
+.card-container {
+  perspective: 1000px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+  .card {
+    margin: 0 0.5rem;
+    touch-action: manipulation;
+  }
+  
+  .card:hover, .card:active {
+    transform: translateY(var(--translate-y)) scale(var(--scale));
+    box-shadow: 
+      0 15px 30px rgba(0, 0, 0, 0.2),
+      0 0 20px 5px rgba(var(--accent), 0.3),
+      0 0 40px 10px rgba(var(--accent), 0.2);
+  }
+}
+
+/* Add this import to your global CSS */
+@import '../components/ui/card.css';

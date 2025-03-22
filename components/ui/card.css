@@ -1,0 +1,17 @@
+/* Add this if you have a separate card component CSS file */
+.card {
+  background-color: var(--card-bg, white);
+  color: var(--card-text, black);
+  border-radius: 0.5rem;
+  display: block;
+  padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+.dark .card {
+  background-color: var(--card-bg-dark, #1e1e1e);
+  color: var(--card-text-dark, white);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
