@@ -1,5 +1,6 @@
 "use client"
 
+import '@/components/ui/card'; // Adjust the path as needed
 import React from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { useRef, useEffect } from 'react'
@@ -19,9 +20,25 @@ import {
 import { cardVariants, cardContainerVariants } from '@/lib/animations'
 import { setupCardAnimations } from '@/lib/card-animations'
 
-import './animations/card-popup.css'
-import './animations/card-hover.css'
-import './animations/card-touch.css'
+// Add wordVariants here
+const wordVariants = {
+  hidden: { 
+    opacity: 0,
+    y: 20,
+    scale: 0.95
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15,
+      duration: 0.5
+    }
+  }
+};
 
 export default function Home() {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -34,7 +51,7 @@ export default function Home() {
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0])
 
   const [servicesRef, servicesInView] = useInView({
-    triggerOnce: true,
+    triggerOnce: false,
     threshold: 0.1,
   })
 
@@ -43,42 +60,43 @@ export default function Home() {
     threshold: 0.1,
   })
 
-  // Use the extracted card animation setup
   useEffect(() => {
-    // Setup card animations and get cleanup function
-    const cleanup = setupCardAnimations();
-    
-    // Return cleanup function
-    return cleanup;
+    if (typeof window !== 'undefined') {
+      const cleanup = setupCardAnimations();
+      return cleanup;
+    }
   }, []);
 
-  const containerVariants = {
+  const testimonialVariants = {
     hidden: { 
       opacity: 0,
+      y: 50,
+      scale: 0.9
     },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 150, // Faster animation
+        damping: 15, // Snappier bounce
+        duration: 0.4 // Faster transition
+      }
+    },
+    hover: {
+      scale: 1.1, // Increased scale on hover (from 1.05 to 1.1)
+      transition: { duration: 0.1 } // Faster hover transition
+    }
+  };
+
+  const containerVariants = {
+    hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
-        delayChildren: 0.3,
-      },
-    },
-  }
-
-  const wordVariants = {
-    hidden: { 
-      opacity: 0,
-      y: 50,
-      rotateX: -90,
-    },
-    visible: { 
-      opacity: 1,
-      y: 0,
-      rotateX: 0,
-      transition: {
-        type: "spring",
-        damping: 12,
-        stiffness: 100,
+        delayChildren: 0.2, // Reduced delay
       },
     },
   }
@@ -121,9 +139,14 @@ export default function Home() {
     }
   ]
 
-  // Define MemoizedCard component outside of JSX
   const MemoizedCard = React.memo(({ service }: { service: typeof services[0] }) => (
-    <motion.div variants={cardVariants} whileHover="hover" className="cursor-pointer">
+    <motion.div 
+      variants={cardVariants}
+      className="cursor-pointer service-card"
+      whileInView="visible"
+      initial="hidden"
+      viewport={{ once: true, amount: 0.2 }}
+    >
       <Card className="card p-6 h-full hover:shadow-lg transition-shadow bg-background/50 backdrop-blur-lg border-accent/20">
         <div className="mb-4 text-secondary">{service.icon}</div>
         <h3 className="text-lg font-semibold mb-2 text-foreground">{service.title}</h3>
@@ -207,7 +230,7 @@ export default function Home() {
             variants={cardContainerVariants}
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8"
           >
             {services.map((service) => (
@@ -230,14 +253,11 @@ export default function Home() {
             {testimonials.map((testimonial) => (
               <motion.div
                 key={testimonial.name}
-                variants={cardVariants}
-                whileHover={{
-                  scale: 1.02, // Further reduced scale for testimonial cards
-                  transition: {
-                    duration: 0.2,
-                    ease: "easeInOut"
-                  }
-                }}
+                variants={testimonialVariants}
+                initial="hidden"
+                whileInView="visible"
+                whileHover="hover"
+                viewport={{ once: true, amount: 0.2 }}
                 className="cursor-pointer testimonial-card"
               >
                 <Card className="card p-6 border-cal-poly-green/20">
@@ -294,4 +314,4 @@ export default function Home() {
       </section>
     </div>
   )
-} // End of Home component
+}
