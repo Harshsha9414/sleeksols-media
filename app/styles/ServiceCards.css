@@ -1,0 +1,24 @@
+.service-card {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    padding: 2rem;
+    margin: 1rem;
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .service-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .card-title {
+    color: #00ff88;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .card-description {
+    color: #94a3b8;
+    line-height: 1.6;
+  }
